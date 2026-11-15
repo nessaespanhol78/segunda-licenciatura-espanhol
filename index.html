@@ -167,10 +167,10 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:14px;color:v
 </section>
 
 <section class="view" id="v-docentes">
-<div><h2>Espaço docente</h2><p class="lead">Escolha um docente para ver as disciplinas de 2027/1 e o horário de atendimento aos estudantes, que cada docente informa. Cada disciplina tem o seu espaço de planejamento, que receberá o plano de ensino e os materiais.</p></div>
+<div><h2>Espaço docente</h2><p class="lead">Escolha um docente para ver as disciplinas de 2027/1 e o seu horário de atendimento aos estudantes. Cada disciplina tem o seu espaço de planejamento, que receberá o plano de ensino e os materiais.</p></div>
 <div class="seg" id="docSeg" role="group" aria-label="Docente"></div>
 <div class="card" id="docCard"></div>
-<div class="card"><h3>Horários de atendimento aos estudantes</h3><div class="scroll"><table id="atendTab"></table></div></div>
+
 <div class="grid g2" id="discCards"></div>
 </section>
 
@@ -308,7 +308,7 @@ function drawDoc(k){seg($('#docSeg'),Object.entries(DOC).map(([a,n])=>[a,n.split
 DOCS.forEach(([t,items])=>{$('#docs').append(Object.assign(el('div','<h3>'+t+'</h3><div>'+items.map(([n,d,u])=>'<div class="doc"><div><b>'+n+'</b><p class="small">'+d+'</p></div>'+(u?'<a href="'+u+'">Abrir</a>':'<span class="tag a">Pendente</span>')+'</div>').join('')+'</div>'),{className:'card'}))});
 $('#docs').prepend(Object.assign(el('div','<h3>Proficiências</h3><p class="small">Certificados de proficiência em espanhol aceitos para aproveitamento em Língua Espanhola, conforme o PPC.</p><div>'+[['DELE','Diploma de Español como Lengua Extranjera, Instituto Cervantes'],['SIELE','Servicio Internacional de Evaluación de la Lengua Española'],['CELU','Certificado de Español Lengua y Uso, Argentina']].map(([n,d])=>'<div class="doc"><div><b>'+n+'</b><p class="small">'+d+'</p></div><span class="tag a">Pareceres a incluir</span></div>').join('')+'</div>'),{className:'card'}));
 $('#docs').prepend(Object.assign(el('div','<h3>Portarias do curso</h3><p class="small">Portarias indicadas à Direção de Ensino, em emissão.</p><div>'+[['Portaria do Colegiado do curso','Vanessa, Carla, Eduardo e Suellen'],['Portaria do Núcleo Docente Estruturante (NDE)','Vanessa, Carla, Eduardo e Suellen, mais um docente a definir'],['Portaria da Comissão de Aproveitamento de Estudos','Vanessa, Carla, Eduardo e Suellen']].map(([n,d])=>'<div class="doc"><div><b>'+n+'</b><p class="small">'+d+'</p></div><span class="tag a">Pendente</span></div>').join('')+'</div>'),{className:'card'}));
-$('#atendTab').innerHTML='<tr><th>Docente</th><th>Atendimento</th></tr>'+Object.keys(DOC).map(k=>'<tr><td><b>'+DOC[k]+'</b></td><td>'+(ATEND[k]||'<span class="tag a">A informar</span>')+'</td></tr>').join('');
+
 drawCal();drawMatriz();drawS1();drawBloco(1);drawDoc('V');route();
 </script>
 </body>
