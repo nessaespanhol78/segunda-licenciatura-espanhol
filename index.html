@@ -148,13 +148,13 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:14px;color:v
 
 <section class="view" id="v-semestre">
 <div><h2>Semestre 1/2027</h2></div>
-<div class="grid g3"><div class="card"><span class="tag">Local das aulas</span><span class="num" style="font-size:28px">LABLIN</span><p>Sala 1, a princípio</p></div><div class="card"><span class="tag">Turno</span><span class="num" style="font-size:28px">19h às 22h</span><p>De segunda a sexta</p></div><div class="card"><span class="tag">Atendimento da coordenação</span><div class="doc"><b>Atendimentos</b><span>Segunda e terça, das 19h às 22h. Quinta, das 16h às 18h</span></div><div class="doc"><b>Local</b><span>Sala da coordenação do LABLIN</span></div></div></div>
+<div class="grid g3"><div class="card"><span class="tag">Local das aulas</span><span class="num" style="font-size:28px">LABLIN</span><p>Sala 1</p></div><div class="card"><span class="tag">Turno</span><span class="num" style="font-size:28px">19h às 22h</span><p>De segunda a sexta</p></div><div class="card"><span class="tag">Atendimento da coordenação</span><div class="doc"><b>Atendimentos</b><span>Segunda e terça, das 19h às 22h. Quinta, das 16h às 18h</span></div><div class="doc"><b>Local</b><span>Sala da coordenação do LABLIN</span></div></div></div>
 <div class="card"><h3>Disciplinas e docentes</h3><div class="scroll"><table id="s1"></table></div>
 <p class="small">As disciplinas teóricas têm metade da carga presencial e metade a distância. Estágio e extensão são presenciais. O dia de Libras ainda será confirmado.</p></div>
 <div class="card"><h3>Horário semanal</h3>
 <div class="seg" id="blocoSeg" role="group" aria-label="Bloco"></div>
 <div class="scroll"><table id="horario"></table></div>
-<p class="small">Aulas das 19h às 22h, no LABLIN, sala 1 (local previsto, sujeito a confirmação). Aos sábados, as atividades a distância ficam disponíveis no NEaD.</p></div>
+<p class="small">Aulas das 19h às 22h, no LABLIN, sala 1. Aos sábados, as atividades a distância ficam disponíveis no NEaD.</p></div>
 <div class="card"><h3>Carga horária por docente na licenciatura</h3><div class="scroll"><table id="cargaDoc"></table></div>
 <p class="small">Horas semanais apenas nas disciplinas da licenciatura, pela matriz do PPC.</p></div>
 </section>
@@ -292,7 +292,8 @@ function drawS1(){$('#s1').innerHTML='<tr><th>Componente</th><th>Docente</th><th
  $('#cargaDoc').innerHTML='<tr><th>Docente</th><th>Disciplinas da licenciatura</th><th>Horas semanais</th></tr>'+Object.keys(DOC).map(k=>{const ds=SEM[1].filter(r=>r[3]==k);
   return '<tr><td><b>'+DOC[k]+'</b></td><td>'+ds.map(r=>r[0]+' <span class="small">'+info(r).wk+'h</span>').join('<br>')+'</td><td class="n"><b>'+ds.reduce((a,r)=>a+info(r).wk,0)+'h</b></td></tr>'}).join('')}
 function drawBloco(b){seg($('#blocoSeg'),[[1,'Bloco 1, de 01/02 a 09/04'],[2,'Bloco 2, de 12/04 a 18/06']],b,drawBloco);
- $('#horario').innerHTML='<tr><th>Dia</th><th>Atividade</th><th>Docente</th></tr>'+[1,2,3,4,5,6].map(d=>{const [n,p]=GRADE[b][d].split('|');return '<tr><td><b>'+WD[d]+'</b></td><td>'+n+'</td><td>'+(p?DOC[p]:'No seu ritmo')+'</td></tr>'}).join('')}
+ const ds=[1,2,3,4,5,6],g=ds.map(d=>GRADE[b][d].split('|')),ps=Object.keys(DOC).filter(k=>g.some(x=>x[1]==k));
+ $('#horario').innerHTML='<tr><th>Docente</th>'+ds.map(d=>'<th>'+WD[d]+'</th>').join('')+'</tr>'+ps.map(k=>'<tr><td><b>'+DOC[k]+'</b></td>'+g.map(x=>'<td>'+(x[1]==k?x[0]:'')+'</td>').join('')+'</tr>').join('')+'<tr><td><b>A distância</b></td>'+g.map(x=>'<td>'+(x[1]?'':x[0])+'</td>').join('')+'</tr>'}
 /* ---------- docentes ---------- */
 const store={get(k){try{return JSON.parse(localStorage.getItem(k))||{}}catch(e){return {}}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 function drawDoc(k){seg($('#docSeg'),Object.entries(DOC).map(([a,n])=>[a,n.split(' ')[0]]),k,drawDoc);
