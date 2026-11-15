@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Portal da Segunda Licenciatura em Espanhol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* layout: barra superior fixa com navegação por abas, uma coluna de conteúdo de até 1080px, painéis em grade */
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --ink:#14262B; --muted:#55686D; --line:#D7DFDD;
+  --primary:#1E7A3A; --primary-soft:#DFEFE3; --accent:#F1BF00; --accent-soft:#FCF3CC; --alert:#AA151B; --alert-soft:#F7E1DD;
+  --display:"Bricolage Grotesque","Segoe UI",Arial,sans-serif; --body:"Source Sans 3","Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){color-scheme:dark;
+    --bg:#0E1A1D; --surface:#16272B; --ink:#E9F0EF; --muted:#9DB0B3; --line:#294045;
+    --primary:#6FCF8A; --primary-soft:#1C3A26; --accent:#F1BF00; --accent-soft:#3B3216; --alert:#F08A7C; --alert-soft:#40211D;}
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#0E1A1D; --surface:#16272B; --ink:#E9F0EF; --muted:#9DB0B3; --line:#294045;
+  --primary:#6FCF8A; --primary-soft:#1C3A26; --accent:#F1BF00; --accent-soft:#3B3216; --alert:#F08A7C; --alert-soft:#40211D;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,4.5vw,42px)} h2{font-size:26px} h3{font-size:19px}
+p{margin:0}
+a{color:var(--primary)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:#123F24;border-bottom:3px solid #F1BF00}
+.bar{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#FFFFFF}
+.brand svg{width:44px;height:44px;flex:none}
+.brand b{font-family:var(--display);font-size:18px;display:block;line-height:1.1}
+.brand span{font-size:12px;letter-spacing:2px;color:#BFE5C8;font-weight:600}
+nav{display:flex;flex-wrap:wrap;gap:4px;margin-left:auto}
+nav a{padding:8px 12px;border-radius:999px;text-decoration:none;color:#D6E6DA;font-weight:600;font-size:15px}
+nav a:hover{background:#1F5A36;color:#FFFFFF}
+nav a[aria-current="page"]{background:#F1BF00;color:#123F24}
+main{max-width:1080px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:24px}
+.view{display:none;flex-direction:column;gap:24px} .view.on{display:flex}
+.lead{color:var(--muted);max-width:65ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.grid{display:grid;gap:16px} .g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))} .g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.hero{background:#123F24;color:#fff;border-radius:18px;padding:30px;display:flex;flex-direction:column;gap:12px}
+.hero p{max-width:60ch;opacity:.92}
+.tag{display:inline-block;font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--primary-soft);color:var(--ink)}
+.tag.a{background:var(--accent-soft)} .tag.r{background:var(--alert-soft);color:var(--alert)}
+.hero .tag{background:var(--accent);color:#14262B;align-self:flex-start}
+.num{font-family:var(--display);font-size:34px;font-weight:700;color:var(--primary);line-height:1}
+.small{font-size:15px;color:var(--muted)}
+.tile{text-decoration:none;color:var(--ink);transition:border-color .15s} .tile:hover{border-color:var(--primary)}
+.tile h3::after{content:" \2192";color:var(--primary)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--surface);padding:7px 14px;border-radius:999px;font-weight:600;font-size:15px}
+.seg button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--surface)}
+/* calendário */
+.cal{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:16px}
+@media (max-width:760px){.cal{grid-template-columns:1fr}}
+.calhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.calhead button{border:1px solid var(--line);background:var(--surface);border-radius:10px;width:40px;height:40px;font-size:18px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.days .w{font-size:12px;font-weight:600;color:var(--muted);text-align:center;padding:4px 0}
+.d{aspect-ratio:1/1;min-height:44px;border:1px solid transparent;border-radius:10px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-variant-numeric:tabular-nums;font-size:15px}
+.d.b1{background:var(--primary-soft)} .d.b2{background:var(--accent-soft)}
+.d.h{background:var(--alert-soft);color:var(--alert);font-weight:600}
+.d.sel{border-color:var(--ink);font-weight:700}
+.d i{width:6px;height:6px;border-radius:50%;background:var(--primary)} .d.h i{background:var(--alert)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:14px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+ul.clean{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.ev{display:flex;gap:12px;align-items:baseline}
+.ev time{font-family:var(--display);font-weight:700;min-width:104px;font-variant-numeric:tabular-nums;color:var(--primary)}
+.ev button{background:none;border:0;padding:0;text-align:left;text-decoration:underline;text-decoration-color:var(--line)}
+/* docentes */
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.check input{margin-top:5px;accent-color:var(--primary);width:16px;height:16px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--primary);color:var(--surface);display:grid;place-items:center;font-family:var(--display);font-weight:700;flex:none}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.doc{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line)}
+.doc:last-child{border-bottom:0}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.steps div{counter-increment:s;background:var(--bg);border-radius:12px;padding:14px;font-size:15px}
+.steps div::before{content:counter(s);display:block;font-family:var(--display);font-weight:700;font-size:24px;color:var(--primary)}
+footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:14px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header><div class="bar">
+<a class="brand" href="#inicio">
+<svg viewBox="0 0 120 120" aria-hidden="true"><path d="M26 40c9-15 21-15 34-5s25 10 34-5" fill="none" stroke="#AA151B" stroke-width="15"/><path d="M26 40c9-15 21-15 34-5s25 10 34-5" fill="none" stroke="#F1BF00" stroke-width="7"/><path d="M37 106V60M37 82c0-34 46-34 46 0v24" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linejoin="round"/></svg>
+<div><b>Segunda Licenciatura</b><span>LETRAS ESPANHOL</span></div></a>
+<nav id="nav" aria-label="Seções">
+<a href="#inicio">Início</a><a href="#semestre">Semestre 2027/1</a><a href="#calendario">Calendário</a><a href="#matriz">Matriz</a><a href="#docentes">Docentes</a><a href="#coordenacao">Coordenação</a><a href="#documentos">Documentos</a><a href="#requerimentos">Requerimentos</a>
+</nav></div></header>
+<main>
+
+<section class="view" id="v-inicio">
+<div class="hero"><span class="tag">Uso interno da coordenação e dos docentes</span>
+<h1>Coordenação - Segunda Licenciatura Letras - Espanhol</h1>
+<p>Apoio ao trabalho da coordenação e do corpo docente. Aqui ficam o semestre em andamento, o calendário, a matriz, os documentos do curso e o acompanhamento das pendências. IFB Campus Brasília, primeira turma em 2027.</p></div>
+<div class="grid g3">
+<div class="card"><span class="num">40</span><p>vagas anuais, turno noturno</p></div>
+<div class="card"><span class="num">1.200h</span><p>em três semestres</p></div>
+<div class="card"><span class="num">440h</span><p>a distância, no NEaD</p></div>
+<div class="card"><span class="num">27/01</span><p>início do semestre 2027/1</p></div>
+</div>
+<div class="grid g2">
+<div class="card"><h3>Coordenação do curso</h3>
+<div class="row"><div class="avatar">VS</div><div><b>Profa. Dra. Vanessa Cristina da Silva</b><p class="small">Coordenadora</p></div></div>
+</div>
+<div class="card"><h3>Próximos marcos</h3><ul class="clean" id="prox"></ul></div>
+</div>
+<div class="grid g3">
+<a class="card tile" href="#semestre"><h3>Semestre 2027/1</h3><p class="small">Disciplinas, docentes e horário da primeira turma.</p></a>
+<a class="card tile" href="#calendario"><h3>Calendário</h3><p class="small">Datas do semestre e a aula de cada dia.</p></a>
+<a class="card tile" href="#matriz"><h3>Matriz curricular</h3><p class="small">Os três semestres do curso, com cargas e núcleos.</p></a>
+<a class="card tile" href="#docentes"><h3>Docentes</h3><p class="small">Espaço de planejamento de cada disciplina, por docente.</p></a>
+<a class="card tile" href="#coordenacao"><h3>Coordenação</h3><p class="small">Pendências e documentos a elaborar, com acompanhamento.</p></a>
+<a class="card tile" href="#documentos"><h3>Documentos</h3><p class="small">PPC, resolução do curso e normativas.</p></a>
+<a class="card tile" href="#requerimentos"><h3>Requerimentos</h3><p class="small">Aproveitamento, proficiência, Libras e estágio.</p></a>
+</div>
+</section>
+
+<section class="view" id="v-calendario">
+<div><h2>Calendário 2027/1</h2><p class="lead">Selecione um dia para ver os eventos e a aula prevista. Os feriados seguem o calendário nacional e precisam ser confirmados no calendário oficial do campus.</p></div>
+<div class="cal">
+<div class="card">
+<div class="calhead"><button id="prev" aria-label="Mês anterior">&#8249;</button><h3 id="mes"></h3><button id="next" aria-label="Próximo mês">&#8250;</button></div>
+<div class="days" id="days"></div>
+<div class="legend"><span style="--c:var(--primary-soft)">Bloco 1</span><span style="--c:var(--accent-soft)">Bloco 2</span><span style="--c:var(--alert-soft)">Feriado</span><span style="--c:var(--primary);">Evento</span></div>
+</div>
+<div class="card"><h3 id="diaT"></h3><div id="diaC" style="display:flex;flex-direction:column;gap:10px"></div></div>
+</div>
+<div class="card"><h3>Marcos do semestre</h3><ul class="clean" id="marcos"></ul></div>
+</section>
+
+<section class="view" id="v-semestre">
+<div><h2>Semestre 2027/1</h2><p class="lead">Disciplinas da primeira turma, com o docente responsável, o período e o dia de aula. O semestre vai de 27/01 a 23/06/2027.</p></div>
+<div class="card"><h3>Disciplinas e docentes</h3><div class="scroll"><table id="s1"></table></div>
+<p class="small">As disciplinas teóricas têm metade da carga presencial e metade a distância. Estágio e extensão são presenciais. O dia de Libras ainda será confirmado.</p></div>
+<div class="card"><h3>Horário semanal</h3>
+<div class="seg" id="blocoSeg" role="group" aria-label="Bloco"></div>
+<div class="scroll"><table id="horario"></table></div>
+<p class="small">Aulas das 19h às 22h. Aos sábados, as atividades a distância ficam disponíveis no NEaD.</p></div>
+<div class="card"><h3>Carga horária por docente na licenciatura</h3><div class="scroll"><table id="cargaDoc"></table></div>
+<p class="small">Horas semanais apenas nas disciplinas da licenciatura, pela matriz do PPC.</p></div>
+</section>
+
+<section class="view" id="v-matriz">
+<div><h2>Matriz curricular</h2><p class="lead">O curso tem 1.200 horas em três semestres, com 760h presenciais e 440h a distância, conforme o PPC aprovado pela Resolução 28/2026.</p></div>
+<div class="card"><div class="scroll"><table id="matriz"></table></div>
+<p class="small">* Língua Espanhola I, II e III e Estágio Supervisionado I, II e III são pré-requisitos em sequência. Núcleo II reúne os conhecimentos específicos, Núcleo III a extensão e Núcleo IV o estágio.</p></div>
+</section>
+
+<section class="view" id="v-docentes">
+<div><h2>Espaço docente</h2><p class="lead">Escolha um docente para ver as disciplinas de 2027/1. Cada disciplina tem o seu espaço de planejamento, que receberá o plano de ensino e os materiais.</p></div>
+<div class="seg" id="docSeg" role="group" aria-label="Docente"></div>
+<div class="card" id="docCard"></div>
+<div class="grid g2" id="discCards"></div>
+</section>
+
+<section class="view" id="v-coordenacao">
+<div><h2>Coordenação</h2><p class="lead">Acompanhamento dos encaminhamentos da reunião de 12/11/2026 e dos documentos do curso. As marcações ficam salvas apenas neste navegador.</p></div>
+<div class="grid g2">
+<div class="card"><h3>Pendências</h3><p class="small" id="pendN"></p><div id="pend" style="display:flex;flex-direction:column;gap:8px"></div></div>
+<div class="card"><h3>Documentos gerais (DREN e CGEN)</h3><p class="small" id="dgN"></p><div id="dg" style="display:flex;flex-direction:column;gap:8px"></div></div>
+</div>
+<div class="card"><h3>Documentos específicos (área de Espanhol)</h3><p class="small" id="deN"></p><div id="de" class="grid g2" style="gap:8px 24px"></div></div>
+</section>
+
+<section class="view" id="v-documentos">
+<div><h2>Documentos e normativas</h2><p class="lead">Os documentos oficiais do curso e as normas citadas no PPC, com o link para o texto. Os itens marcados como pendentes ainda aguardam o link.</p></div>
+<div class="grid g2" id="docs"></div>
+</section>
+
+<section class="view" id="v-requerimentos">
+<div><h2>Requerimentos</h2><p class="lead">Referência para a análise dos quatro tipos de pedido que os estudantes podem fazer na matrícula. A coordenação e a comissão de aproveitamento analisam todos na semana de 01 a 05/02/2027.</p></div>
+<div class="grid g2">
+<div class="card"><span class="tag">Até 480h</span><h3>Aproveitamento de estudos</h3><p>Dispensa de disciplinas já cursadas em nível superior, com pelo menos 75% de equivalência em carga horária e conteúdo. O total aproveitado não passa de 40% do curso.</p><p class="small">Documentos. Histórico, matriz do curso de origem e ementas.</p></div>
+<div class="card"><span class="tag">DELE, SIELE, CELU</span><h3>Proficiência em espanhol</h3><p>Certificados internacionais válidos podem dispensar níveis de Língua Espanhola, conforme o nível obtido.</p><p class="small">Documentos. Certificado oficial com o nível.</p></div>
+<div class="card"><span class="tag">40h</span><h3>Dispensa de Libras</h3><p>Quem já cursou Libras na graduação anterior pode pedir a dispensa. Sem comprovação, a disciplina é cursada no IFB.</p><p class="small">Documentos. Histórico com Libras e ementa.</p></div>
+<div class="card"><span class="tag">100h</span><h3>Redução do estágio</h3><p>Quem comprova exercício no magistério pode pedir a redução de 100h do estágio, que incide sobre o Estágio Supervisionado I.</p><p class="small">Documentos. Comprovação de exercício no magistério.</p></div>
+</div>
+<div class="card"><h3>Como funciona</h3><div class="steps"><div>Matrícula e entrega dos documentos</div><div>Preenchimento do formulário de cada pedido</div><div>Análise de 01 a 05/02/2027</div><div>Parecer da comissão</div><div>Prazo de recurso</div></div>
+<p class="small">A coordenação elabora os formulários de cada pedido, que serão incluídos aqui. Estágio, extensão e TCC não podem ser aproveitados (ponto em validação pelo NDE).</p></div>
+</section>
+</main>
+<footer>Segunda Licenciatura em Letras Espanhol, IFB Campus Brasília. Espaço de uso interno da coordenação e dos docentes, com informações sujeitas a confirmação oficial.</footer>
+
+<script>
+const $=s=>document.querySelector(s), el=(t,h)=>{const e=document.createElement(t);e.innerHTML=h;return e};
+const fmt=s=>s.slice(8)+'/'+s.slice(5,7);
+const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+/* ---------- dados ---------- */
+const B1=['2027-02-01','2027-04-09'], B2=['2027-04-12','2027-06-18'];
+const EV=[
+ {d:'2026-11-20',t:'Lançamento do edital do processo seletivo',x:'Seleção por sorteio, com edital aberto de 30 a 45 dias.'},
+ {d:'2027-01-27',e:'2027-01-29',t:'Ambientação da turma',x:'Apresentação do curso e acesso ao NEaD.'},
+ {d:'2027-02-01',t:'Início das aulas e do bloco 1'},
+ {d:'2027-02-01',e:'2027-02-05',t:'Análise dos requerimentos',x:'Aproveitamento, proficiência, Libras e redução do estágio.'},
+ {d:'2027-02-08',e:'2027-02-09',t:'Carnaval',h:1},
+ {d:'2027-03-26',t:'Sexta-feira Santa',h:1},
+ {d:'2027-04-09',t:'Fim do bloco 1'},
+ {d:'2027-04-12',t:'Início do bloco 2'},
+ {d:'2027-04-21',t:'Tiradentes e aniversário de Brasília',h:1},
+ {d:'2027-05-27',t:'Corpus Christi',h:1},
+ {d:'2027-06-18',t:'Fim do bloco 2'},
+ {d:'2027-06-23',t:'Término do semestre'}];
+const DOC={V:'Vanessa Cristina da Silva',E:'Eduardo Melo Rebouças',S:'Suellen Mayara Magalhães Feitosa',C:'Carla Mary Silva Eloy',N:'Núbia Flávia Oliveira Mendes'};
+const SEM={1:[
+ ['Língua Espanhola I',80,40,'C','Blocos 1 e 2','Quarta'],
+ ['Fonética e Fonologia do Espanhol',60,30,'E','Bloco 1','Segunda'],
+ ['Morfologia e Lexicologia do Espanhol',60,30,'E','Bloco 2','Segunda'],
+ ['Linguística Aplicada ao Ensino de Espanhol I',60,30,'S','Bloco 1','Terça'],
+ ['Libras',40,20,'N','Bloco 2','Terça (a confirmar)'],
+ ['Atividades de Extensão I',40,0,'V','Blocos 1 e 2','Sexta'],
+ ['Estágio Supervisionado I',60,0,'V','Blocos 1 e 2','Quinta']],
+2:[['Língua Espanhola II',80,40,'C'],['Morfossintaxe do Espanhol',60,30,'E'],['Panorama da Literatura Espanhola',60,30,'S'],['Linguística Aplicada ao Ensino de Espanhol II',60,30,'S'],['Atividades de Extensão II',40,0,'V'],['Estágio Supervisionado II',70,0,'V']],
+3:[['Língua Espanhola III',80,40],['Semântica e Pragmática do Espanhol',60,30],['Sociolinguística do Espanhol',60,30],['Panorama da Literatura Hispano-Americana',60,30],['Atividades de Extensão III',40,0],['Estágio Supervisionado III',70,0],['Trabalho de Conclusão de Curso',60,30]]};
+const NOTA={1:'Semestre 2027/1, com 400h.',2:'Semestre 2027/2, com 370h. Distribuição docente prevista, ainda sujeita a confirmação.',3:'Semestre 2028/1, com 430h. Docentes a definir.'};
+const WD=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const GRADE={1:{1:'Fonética e Fonologia do Espanhol|E',2:'Linguística Aplicada ao Ensino de Espanhol I|S',3:'Língua Espanhola I|C',4:'Estágio Supervisionado I|V',5:'Atividades de Extensão I|V',6:'Atividades a distância no NEaD|'},
+             2:{1:'Morfologia e Lexicologia do Espanhol|E',2:'Libras (a confirmar)|N',3:'Língua Espanhola I|C',4:'Estágio Supervisionado I|V',5:'Atividades de Extensão I|V',6:'Atividades a distância no NEaD|'}};
+const SLOTS=['Plano de ensino','Cronograma','Materiais de aula','Atividades e avaliações','Sala no NEaD'];
+const MAT={}; /* materiais por disciplina: {'Nome da disciplina':{'Plano de ensino':[['título','link']]}} */
+const CHECK=['Mensagem de boas-vindas, com legenda, transcrição ou Libras','Fórum de avisos','Fórum de dúvidas','Plano de ensino em local de fácil acesso','Cronograma da disciplina','Contato do professor','Atividades do sábado em destaque, com prazos','Atividades de aprendizagem'];
+const DOCS=[["Documentos do curso", [["Projeto Pedagógico do Curso (PPC)", "Versão vigente, aprovada pelo Conselho Superior", "https://drive.google.com/file/d/1XvgJdK2uCDVZdppJipSe5o9b2QvKQNkW/view"], ["Resolução 28/2026 do Conselho Superior", "Aprova o PPC do curso, em 20/10/2026", "https://drive.google.com/file/d/1PBdrcZcl0QhQnLU6FI2GpAvZONxciCN0/view"], ["Orientações de ingresso e aproveitamento", "Para o Registro Acadêmico e as comissões", "https://drive.google.com/file/d/1QJ653w_5-lZh4GsYun7LL15RDIOVH87Q/view"], ["Calendário acadêmico 2027", "Cursos superiores do Campus Brasília", ""]]], ["Formação de professores e currículo", [["Resolução CNE/CP nº 4/2024", "Diretrizes da formação inicial de professores e da segunda licenciatura", "https://www.in.gov.br/en/web/dou/-/resolucao-cne/cp-n-4-de-29-de-maio-de-2024-563084558"], ["Resolução CNE/CES nº 7/2018", "Diretrizes para a extensão na educação superior", "https://normativasconselhos.mec.gov.br/normativa/pdf/CNE_RES_CNECESN72018.pdf"], ["Resolução CNE/CEB nº 4/2010", "Diretrizes gerais da Educação Básica", "http://portal.mec.gov.br/dmdocuments/rceb004_10.pdf"], ["Resolução CNE/CEB nº 5/2025", "Diretrizes citadas no PPC", ""], ["Base Nacional Comum Curricular", "BNCC, 2018", "http://basenacionalcomum.mec.gov.br"]]], ["Leis e decretos", [["Lei nº 9.394/1996", "Diretrizes e bases da educação nacional (LDB)", "https://www.planalto.gov.br/ccivil_03/leis/l9394.htm"], ["Lei nº 11.892/2008", "Rede Federal e Institutos Federais", "https://www.planalto.gov.br/ccivil_03/_ato2007-2010/2008/lei/l11892.htm"], ["Lei nº 13.005/2014", "Plano Nacional de Educação 2014 a 2024", "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2014/lei/l13005.htm"], ["Lei nº 15.388/2026", "Novo Plano Nacional de Educação", ""], ["Lei nº 10.861/2004", "Sistema Nacional de Avaliação da Educação Superior (SINAES)", "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2004/lei/l10.861.htm"], ["Lei nº 10.436/2002", "Língua Brasileira de Sinais", "https://www.planalto.gov.br/ccivil_03/leis/2002/l10436.htm"], ["Decreto nº 5.626/2005", "Regulamenta a Lei de Libras", "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2005/decreto/d5626.htm"], ["Lei nº 13.146/2015", "Lei Brasileira de Inclusão", "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2015/lei/l13146.htm"], ["Decreto nº 5.296/2004", "Acessibilidade", "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2004/decreto/d5296.htm"], ["Lei nº 11.161/2005", "Ensino da língua espanhola, revogada pela Lei nº 13.415/2017", "https://www.planalto.gov.br/ccivil_03/_ato2004-2006/2005/lei/l11161.htm"], ["Lei nº 13.415/2017", "Altera a LDB e o ensino médio", "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13415.htm"]]], ["Educação a distância", [["Decreto nº 12.456/2025", "Oferta de EaD em cursos de graduação", "https://www.planalto.gov.br/ccivil_03/_ato2023-2026/2025/decreto/d12456.htm"], ["Decreto nº 9.235/2017", "Regulação, supervisão e avaliação da educação superior", "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/decreto/d9235.htm"], ["Portaria MEC nº 381/2025", "Regras de transição do Decreto nº 12.456", "https://www.gov.br/mec/pt-br/cne/2025/maio-2025/portaria-mec-no-381-de-20-de-maio-de-2025.pdf"], ["Portaria MEC nº 506/2025", "Duração mínima e avaliação presencial", "https://deg.unb.br/wp-content/uploads/portaria_mec_506_2025.pdf"], ["Resolução nº 32/2019 RIFB/IFB", "Diretrizes da EaD no IFB", "https://www.ifb.edu.br/institucional/19574"], ["Portaria 10/2025 RIFB/IFB", "Ambientes virtuais e salas do NEaD", "https://ifb.edu.br/attachments/article/41881/Portaria%20-%20AVA%20IFB.pdf"]]], ["Normas do IFB para a graduação", [["Resolução nº 27/2016 CS/IFB", "Organização didático-pedagógica dos cursos de graduação", "https://www.ifb.edu.br/attachments/article/10765/RESOLU%C3%87%C3%83O%20n%C2%BA%20027-2016_%20ALTERA%20ODP_CEPE%20(2).pdf"], ["Resolução nº 19/2022 CS/IFB", "Altera a organização didático-pedagógica, com aproveitamento e reconhecimento de saberes", ""], ["Resolução nº 15/2022 CS/IFB", "Curricularização da extensão na graduação", "https://www.ifb.edu.br/attachments/article/6096/Resolu%C3%A7%C3%A3o%2015.2022%20CS.%20RIFB.IFBras%C3%ADlia%20Curriculariza%C3%A7%C3%A3o%20da%20Extens%C3%A3o%20nos%20Cursos%20de%20Gradua%C3%A7%C3%A3o.pdf"], ["Resolução nº 42/2020 CS/IFB", "Normas gerais das ações de extensão", "https://ifb.edu.br/attachments/article/22990/Resolu%C3%A7%C3%A3o%C2%A0n%C2%BA%C2%A0%2042-2020%C2%A0%20-%C2%A0Aprova%20o%20Regulamento%20das%20Normas%20Gerais%20e%20as%20Diretrizes%20Conceituais%20para%20as%20a%C3%A7%C3%B5es%20de%20extens%C3%A3o.pdf"], ["Resolução nº 47/2020 CS/IFB", "Pesquisa e inovação no IFB", ""], ["Portaria 13/2021 RIFB/IFB", "Diretrizes do TCC nas licenciaturas", "https://www.ifb.edu.br/attachments/article/3285/Portaria%20n%C2%BA%2013.2021%20-%20Regulamenta%20as%20diretrizes%20acad%C3%AAmicas%20para%20elabora%C3%A7%C3%A3o%20do%20TCC%20no%20%C3%A2mbito%20dos%20cursos%20de%20Licenciatura%20do%20IFB..pdf"], ["Plano de Desenvolvimento Institucional 2024 a 2030", "PDI do IFB", "https://www.ifb.edu.br/institucional/pdi"]]], ["Coordenação, colegiado e carga docente", [["Normas da Coordenação de Curso, do Colegiado e do NDE", "Resolução do Conselho Superior do IFB", "https://www.ifb.edu.br/attachments/4578_005_Estabelece%20o%20Regulamento%20para%20Coordena%C3%A7%C3%A3o%20de%20Curso,%20Colegiado%20de%20Curso%20e%20Nucleo%20Docente%20Estruturante.pdf"], ["Resolução CONAES nº 1/2010", "Núcleo Docente Estruturante", "https://deg.unb.br/wp-content/uploads/resolucao_conaes_1_2010_nucleo_docente.pdf"], ["Resolução nº 31/2019 RIFB/IFB", "Distribuição da carga horária semanal docente, por regime e atividades", "https://www.ifb.edu.br/attachments/article/19574/RESOLU%C3%87%C3%83O%2031_2019%20-%20RIFB_IFB%20-%20Regulamento%20da%20distribui%C3%A7%C3%A3o%20da%20carga%20hor%C3%A1ria%20semanal%20de%20trabalho%20de%20docentes1.pdf"]]], ["Referenciais de língua espanhola", [["Marco Común Europeo de Referencia", "Instituto Cervantes", "https://cvc.cervantes.es/ensenanza/biblioteca_ele/marco/cvc_mer.pdf"], ["Plan Curricular del Instituto Cervantes", "Niveles de referencia para el español", "https://cvc.cervantes.es/ensenanza/biblioteca_ele/plan_curricular/"]]]];
+/* ---------- navegação ---------- */
+const VIEWS=['inicio','semestre','calendario','matriz','docentes','coordenacao','documentos','requerimentos'];
+function route(){const h=location.hash.slice(1),v=VIEWS.includes(h)?h:'inicio';
+ VIEWS.forEach(n=>$('#v-'+n).classList.toggle('on',n===v));
+ document.querySelectorAll('#nav a').forEach(a=>a.getAttribute('href')==='#'+v?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+ window.scrollTo(0,0)}
+addEventListener('hashchange',route);
+/* ---------- calendário ---------- */
+const inR=(s,a,b)=>s>=a&&s<=(b||a);
+const evOf=s=>EV.filter(e=>inR(s,e.d,e.e));
+const blocoOf=s=>inR(s,B1[0],B1[1])?1:inR(s,B2[0],B2[1])?2:0;
+let cur=new Date(2027,1,1), sel='2027-02-01';
+const today=new Date(); if(iso(today)>='2027-01-01'&&iso(today)<='2027-06-30'){cur=new Date(today.getFullYear(),today.getMonth(),1);sel=iso(today)}
+function drawCal(){
+ $('#mes').textContent=cur.toLocaleDateString('pt-BR',{month:'long',year:'numeric'}).replace(/^./,c=>c.toUpperCase());
+ const box=$('#days');box.innerHTML='';
+ 'DSTQQSS'.split('').forEach(w=>box.append(el('div',w)));
+ [...box.children].forEach(c=>c.className='w');
+ for(let i=0;i<new Date(cur.getFullYear(),cur.getMonth(),1).getDay();i++)box.append(el('div',''));
+ const n=new Date(cur.getFullYear(),cur.getMonth()+1,0).getDate();
+ for(let k=1;k<=n;k++){const s=iso(new Date(cur.getFullYear(),cur.getMonth(),k)),ev=evOf(s),b=blocoOf(s);
+  const btn=el('button',k+(ev.length?'<i></i>':''));btn.className='d'+(ev.some(e=>e.h)?' h':b?' b'+b:'')+(s===sel?' sel':'');
+  btn.setAttribute('aria-label',k+' '+$('#mes').textContent+(ev.length?', '+ev.map(e=>e.t).join(', '):''));
+  btn.onclick=()=>{sel=s;drawCal()};box.append(btn)}
+ drawDay()}
+function drawDay(){const d=new Date(sel+'T12:00'),ev=evOf(sel),b=blocoOf(sel),c=$('#diaC');
+ $('#diaT').textContent=WD[d.getDay()]+', '+fmt(sel)+'/'+sel.slice(0,4);c.innerHTML='';
+ ev.forEach(e=>c.append(el('div','<span class="tag '+(e.h?'r':'a')+'">'+(e.h?'Feriado':'Evento')+'</span> <b>'+e.t+'</b>'+(e.x?'<p class="small">'+e.x+'</p>':''))));
+ let aula='';
+ if(ev.some(e=>e.h))aula='Sem aula neste dia. A reposição será combinada com o docente.';
+ else if(b&&GRADE[b][d.getDay()]){const [n,p]=GRADE[b][d.getDay()].split('|');aula='<span class="tag">Bloco '+b+'</span> <b>'+n+'</b>'+(p?'<p class="small">'+DOC[p]+', das 19h às 22h</p>':'<p class="small">Videoaulas e atividades assíncronas</p>')}
+ else if(b)aula='Sem aula presencial neste dia.';
+ if(aula)c.append(el('div',aula));
+ if(!c.children.length)c.append(el('p','<span class="small">Nenhum evento neste dia.</span>'))}
+$('#prev').onclick=()=>{cur=new Date(cur.getFullYear(),cur.getMonth()-1,1);drawCal()};
+$('#next').onclick=()=>{cur=new Date(cur.getFullYear(),cur.getMonth()+1,1);drawCal()};
+function goto(s){sel=s;cur=new Date(+s.slice(0,4),+s.slice(5,7)-1,1);location.hash='calendario';drawCal()}
+function evList(box,list){list.forEach(e=>{const li=el('li','<time>'+fmt(e.d)+(e.e?' a '+fmt(e.e):'')+'</time>');li.className='ev';
+ const b=el('button',e.t+(e.h?' <span class="tag r">Feriado</span>':''));b.onclick=()=>goto(e.d);li.append(b);box.append(li)})}
+evList($('#marcos'),EV);
+const t0=iso(today);evList($('#prox'),(EV.filter(e=>(e.e||e.d)>=t0&&!e.h).slice(0,4)));
+/* ---------- disciplinas ---------- */
+function seg(box,items,cur,fn){box.innerHTML='';items.forEach(([v,l])=>{const b=el('button',l);b.setAttribute('aria-pressed',v==cur);b.onclick=()=>fn(v);box.append(b)})}
+const info=r=>({wk:Math.ceil(r[1]/20),nu:r[0].includes('Extensão')?'III':r[0].includes('Estágio')?'IV':'II',st:/^(Língua Espanhola|Estágio)/.test(r[0])?' *':''});
+function drawMatriz(){let h='<tr><th>Componente</th><th>Carga total</th><th>Presencial</th><th>EaD</th><th>Horas semanais</th><th>Núcleo</th></tr>',T=[0,0,0];
+ [1,2,3].forEach(k=>{let c=0,e=0,w=0;h+='<tr><td colspan="6" style="background:var(--primary-soft)"><b>'+k+'º semestre</b></td></tr>';
+  SEM[k].forEach(r=>{const i=info(r);c+=r[1];e+=r[2];w+=i.wk;h+='<tr><td>'+r[0]+i.st+'</td><td class="n">'+r[1]+'h</td><td class="n">'+(r[1]-r[2])+'h</td><td class="n">'+(r[2]?r[2]+'h':'0h')+'</td><td class="n">'+i.wk+'h</td><td>'+i.nu+'</td></tr>'});
+  h+='<tr><td><b>Subtotal</b></td><td class="n"><b>'+c+'h</b></td><td class="n"><b>'+(c-e)+'h</b></td><td class="n"><b>'+e+'h</b></td><td class="n"><b>'+w+'h</b></td><td></td></tr>';T[0]+=c;T[1]+=e});
+ h+='<tr><td style="background:var(--accent-soft)"><b>Total do curso</b></td><td class="n" style="background:var(--accent-soft)"><b>'+T[0].toLocaleString('pt-BR')+'h</b></td><td class="n" style="background:var(--accent-soft)"><b>'+(T[0]-T[1])+'h</b></td><td class="n" style="background:var(--accent-soft)"><b>'+T[1]+'h</b></td><td style="background:var(--accent-soft)"></td><td style="background:var(--accent-soft)"></td></tr>';
+ $('#matriz').innerHTML=h}
+function drawS1(){$('#s1').innerHTML='<tr><th>Componente</th><th>Docente</th><th>Período</th><th>Dia</th><th>Carga</th><th>EaD</th></tr>'+
+ SEM[1].map(r=>'<tr><td><b>'+r[0]+'</b></td><td>'+DOC[r[3]]+'</td><td>'+r[4]+'</td><td>'+r[5]+'</td><td class="n">'+r[1]+'h</td><td class="n">'+(r[2]?r[2]+'h':'Presencial')+'</td></tr>').join('');
+ $('#cargaDoc').innerHTML='<tr><th>Docente</th><th>Disciplinas da licenciatura</th><th>Horas semanais</th></tr>'+Object.keys(DOC).map(k=>{const ds=SEM[1].filter(r=>r[3]==k);
+  return '<tr><td><b>'+DOC[k]+'</b></td><td>'+ds.map(r=>r[0]+' <span class="small">'+info(r).wk+'h</span>').join('<br>')+'</td><td class="n"><b>'+ds.reduce((a,r)=>a+info(r).wk,0)+'h</b></td></tr>'}).join('')}
+function drawBloco(b){seg($('#blocoSeg'),[[1,'Bloco 1, de 01/02 a 09/04'],[2,'Bloco 2, de 12/04 a 18/06']],b,drawBloco);
+ $('#horario').innerHTML='<tr><th>Dia</th><th>Atividade</th><th>Docente</th></tr>'+[1,2,3,4,5,6].map(d=>{const [n,p]=GRADE[b][d].split('|');return '<tr><td><b>'+WD[d]+'</b></td><td>'+n+'</td><td>'+(p?DOC[p]:'No seu ritmo')+'</td></tr>'}).join('')}
+/* ---------- docentes ---------- */
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))||{}}catch(e){return {}}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+function drawDoc(k){seg($('#docSeg'),Object.entries(DOC).map(([a,n])=>[a,n.split(' ')[0]]),k,drawDoc);
+ const ini=DOC[k].split(' ').filter((_,i,a)=>i==0||i==a.length-1).map(w=>w[0]).join('');
+ const ds=[1,2].flatMap(s=>SEM[s].filter(r=>r[3]==k).map(r=>'<tr><td><b>'+r[0]+'</b></td><td>'+s+'º semestre</td><td>'+(r[5]||'A definir')+'</td></tr>'));
+ $('#docCard').innerHTML='<div class="row"><div class="avatar">'+ini+'</div><div><h3>'+DOC[k]+'</h3><p class="small">'+(k=='V'?'Coordenadora do curso':k=='N'?'Docente de Libras':'Docente da área de Espanhol')+'</p></div></div><div class="scroll"><table><tr><th>Disciplina</th><th>Semestre</th><th>Dia</th></tr>'+ds.join('')+'</table></div>';
+ const box=$('#discCards');box.innerHTML='';
+ SEM[1].filter(r=>r[3]==k).forEach(r=>{const m=MAT[r[0]]||{};
+  box.append(Object.assign(el('div','<span class="tag">'+r[4]+', '+r[5].toLowerCase()+'</span><h3>Planejamento de ensino de '+r[0]+'</h3><p class="small">'+r[1]+'h no semestre, '+(r[2]?(r[1]-r[2])+'h presenciais e '+r[2]+'h a distância':'toda presencial')+'</p><div>'+
+   SLOTS.map(t=>'<div class="doc"><b>'+t+'</b>'+((m[t]||[]).length?'<span>'+m[t].map(([n,u])=>'<a href="'+u+'">'+n+'</a>').join('<br>')+'</span>':'<span class="tag a">A incluir</span>')+'</div>').join('')+'</div>'),{className:'card'}))})}
+/* ---------- coordenação ---------- */
+const LISTS={pend:['Portarias da coordenação, do colegiado, do NDE e da comissão de aproveitamento (DREN)','Consulta à professora Paola sobre o colegiado e o NDE (Marcelo)','Análise da participação da professora Renata junto à Reitoria (Marcelo)','Lançamento do edital do processo seletivo em 20/11/2026','Formulários de aproveitamento, proficiência, Libras e redução do estágio','Confirmação da FCC e das horas da coordenação','Confirmação do dia de Libras no bloco 2 com a professora Núbia','Conferência dos feriados no calendário oficial do campus','Sala da coordenação no NEaD (Portaria 10/2025, art. 9 a 12)','Validação dos pontos em aberto das orientações com a DREN e o NDE'],
+dg:['Edital do processo seletivo','Lista de documentos para inscrição e matrícula','Formulário e fluxo de aproveitamento de estudos','Cronograma de matrícula e designação da comissão de análise','Cadastro da matriz no Registro Acadêmico','Indicação dos membros e portarias do colegiado e do NDE','Criação da sala do curso no NEaD com todas as disciplinas e padronização de materiais em EaD','Convênios com escolas de Educação Básica','Bibliografia do PPC no acervo e lista de aquisição','Checklist de autorização e e-MEC','Projeção da carga docente com o curso completo'],
+de:['Horário semanal do 1º semestre','Quadro da carga presencial e EaD por disciplina','Proposta de composição do colegiado e do NDE','Plano de trabalho do NDE para o primeiro ano','Quadro de distribuição docente e cenários de carga','Regulamento de estágio do curso','Modelo de termo de compromisso de estágio','Formulário de redução do estágio','Proposta de oferta das disciplinas pré-requisito','Planos de ensino do 1º semestre','Plano de Atividades de Extensão I','Quadro de divisão de tarefas da área','Análise dos projetos da professora Renata','Proposta de livro didático','Proposta de ajustes de conteúdo nos planos','Proposta de participação no congresso','Modelo de sala virtual','Guia do estudante para a EaD','Calendário de afastamentos da área','Proposta do FIC de Conversação']};
+const DONE={dg:[],de:[0,4]};
+Object.entries(LISTS).forEach(([k,items])=>{const st=store.get('coord-'+k);(DONE[k]||[]).forEach(i=>{if(st[i]===undefined)st[i]=true});
+ const count=()=>{$('#'+k+'N').textContent=items.filter((_,i)=>st[i]).length+' de '+items.length+' concluídos'};
+ items.forEach((c,i)=>{const l=el('label','<input type="checkbox" id="co-'+k+i+'"'+(st[i]?' checked':'')+'><span>'+c+'</span>');l.className='check';
+  l.firstChild.onchange=e=>{st[i]=e.target.checked;store.set('coord-'+k,st);count()};$('#'+k).append(l)});count()});
+/* ---------- documentos ---------- */
+DOCS.forEach(([t,items])=>{$('#docs').append(Object.assign(el('div','<h3>'+t+'</h3><div>'+items.map(([n,d,u])=>'<div class="doc"><div><b>'+n+'</b><p class="small">'+d+'</p></div>'+(u?'<a href="'+u+'">Abrir</a>':'<span class="tag a">Pendente</span>')+'</div>').join('')+'</div>'),{className:'card'}))});
+$('#docs').prepend(Object.assign(el('div','<h3>Proficiências</h3><p class="small">Certificados de proficiência em espanhol aceitos para aproveitamento em Língua Espanhola, conforme o PPC.</p><div>'+[['DELE','Diploma de Español como Lengua Extranjera, Instituto Cervantes'],['SIELE','Servicio Internacional de Evaluación de la Lengua Española'],['CELU','Certificado de Español Lengua y Uso, Argentina']].map(([n,d])=>'<div class="doc"><div><b>'+n+'</b><p class="small">'+d+'</p></div><span class="tag a">Pareceres a incluir</span></div>').join('')+'</div>'),{className:'card'}));
+$('#docs').prepend(Object.assign(el('div','<h3>Portarias do curso</h3><p class="small">Portarias indicadas à Direção de Ensino, em emissão.</p><div>'+[['Portaria do Colegiado do curso','Vanessa, Carla, Eduardo e Suellen'],['Portaria do Núcleo Docente Estruturante (NDE)','Vanessa, Carla, Eduardo e Suellen, mais um docente a definir'],['Portaria da Comissão de Aproveitamento de Estudos','Vanessa, Carla, Eduardo e Suellen']].map(([n,d])=>'<div class="doc"><div><b>'+n+'</b><p class="small">'+d+'</p></div><span class="tag a">Pendente</span></div>').join('')+'</div>'),{className:'card'}));
+drawCal();drawMatriz();drawS1();drawBloco(1);drawDoc('V');route();
+</script>
+</body>
+</html>
