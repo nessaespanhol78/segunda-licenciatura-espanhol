@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<title>Estágio Supervisionado III, Segunda Licenciatura em Espanhol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+/* layout: barra superior fixa com navegação por abas, uma coluna de conteúdo de até 1080px, painéis em grade */
+:root{
+  --bg:#F2F5F4; --surface:#FFFFFF; --ink:#14262B; --muted:#55686D; --line:#D7DFDD;
+  --primary:#1E7A3A; --primary-soft:#DFEFE3; --accent:#F1BF00; --accent-soft:#FCF3CC; --alert:#AA151B; --alert-soft:#F7E1DD;
+  --display:"Bricolage Grotesque","Segoe UI",Arial,sans-serif; --body:"Source Sans 3","Segoe UI",Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){color-scheme:dark;
+    --bg:#0E1A1D; --surface:#16272B; --ink:#E9F0EF; --muted:#9DB0B3; --line:#294045;
+    --primary:#6FCF8A; --primary-soft:#1C3A26; --accent:#F1BF00; --accent-soft:#3B3216; --alert:#F08A7C; --alert-soft:#40211D;}
+}
+:root[data-theme="dark"]{color-scheme:dark;
+  --bg:#0E1A1D; --surface:#16272B; --ink:#E9F0EF; --muted:#9DB0B3; --line:#294045;
+  --primary:#6FCF8A; --primary-soft:#1C3A26; --accent:#F1BF00; --accent-soft:#3B3216; --alert:#F08A7C; --alert-soft:#40211D;}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,4.5vw,42px)} h2{font-size:26px} h3{font-size:19px}
+p{margin:0}
+a{color:var(--primary)}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:#123F24;border-bottom:3px solid #F1BF00}
+.bar{max-width:1080px;margin:0 auto;padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:#FFFFFF}
+.brand svg{width:44px;height:44px;flex:none}
+.brand b{font-family:var(--display);font-size:18px;display:block;line-height:1.1}
+.brand span{font-size:12px;letter-spacing:2px;color:#BFE5C8;font-weight:600}
+nav{display:flex;flex-wrap:wrap;gap:4px;margin-left:auto}
+nav a{padding:8px 12px;border-radius:999px;text-decoration:none;color:#D6E6DA;font-weight:600;font-size:15px}
+nav a:hover{background:#1F5A36;color:#FFFFFF}
+nav a[aria-current="page"]{background:#F1BF00;color:#123F24}
+main{max-width:1080px;margin:0 auto;padding:28px 16px 64px;display:flex;flex-direction:column;gap:24px}
+.view{display:none;flex-direction:column;gap:24px} .view.on{display:flex}
+.lead{color:var(--muted);max-width:65ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.grid{display:grid;gap:16px} .g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))} .g3{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.hero{background:#123F24;color:#fff;border-radius:18px;padding:30px;display:flex;flex-direction:column;gap:12px}
+.hero p{max-width:60ch;opacity:.92}
+.tag{display:inline-block;font-size:13px;font-weight:600;padding:3px 10px;border-radius:999px;background:var(--primary-soft);color:var(--ink)}
+.tag.a{background:var(--accent-soft)} .tag.r{background:var(--alert-soft);color:var(--alert)}
+.hero .tag{background:var(--accent);color:#14262B;align-self:flex-start}
+.num{font-family:var(--display);font-size:34px;font-weight:700;color:var(--primary);line-height:1}
+.small{font-size:15px;color:var(--muted)}
+.tile{text-decoration:none;color:var(--ink);transition:border-color .15s} .tile:hover{border-color:var(--primary)}
+.tile h3::after{content:" \2192";color:var(--primary)}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:13px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted)}
+td.n{font-variant-numeric:tabular-nums;white-space:nowrap}
+.scroll{overflow-x:auto}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--surface);padding:7px 14px;border-radius:999px;font-weight:600;font-size:15px}
+.seg button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--surface)}
+/* calendário */
+.cal{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:16px}
+@media (max-width:760px){.cal{grid-template-columns:1fr}}
+.calhead{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.calhead button{border:1px solid var(--line);background:var(--surface);border-radius:10px;width:40px;height:40px;font-size:18px}
+.days{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.days .w{font-size:12px;font-weight:600;color:var(--muted);text-align:center;padding:4px 0}
+.d{aspect-ratio:1/1;min-height:44px;border:1px solid transparent;border-radius:10px;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-variant-numeric:tabular-nums;font-size:15px}
+.d.b1{background:var(--primary-soft)} .d.b2{background:var(--accent-soft)}
+.d.h{background:var(--alert-soft);color:var(--alert);font-weight:600}
+.d.sel{border-color:var(--ink);font-weight:700}
+.d i{width:6px;height:6px;border-radius:50%;background:var(--primary)} .d.h i{background:var(--alert)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:14px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:6px;vertical-align:-1px;background:var(--c)}
+ul.clean{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.ev{display:flex;gap:12px;align-items:baseline}
+.ev time{font-family:var(--display);font-weight:700;min-width:104px;font-variant-numeric:tabular-nums;color:var(--primary)}
+.ev button{background:none;border:0;padding:0;text-align:left;text-decoration:underline;text-decoration-color:var(--line)}
+/* docentes */
+.check{display:flex;gap:10px;align-items:flex-start;font-size:15px}
+.check input{margin-top:5px;accent-color:var(--primary);width:16px;height:16px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--primary);color:var(--surface);display:grid;place-items:center;font-family:var(--display);font-weight:700;flex:none}
+.row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.doc{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line)}
+.doc:last-child{border-bottom:0}
+.steps{counter-reset:s;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.steps div{counter-increment:s;background:var(--bg);border-radius:12px;padding:14px;font-size:15px}
+.steps div::before{content:counter(s);display:block;font-family:var(--display);font-weight:700;font-size:24px;color:var(--primary)}
+footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:14px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.wk td:first-child{font-family:var(--display);font-weight:700;color:var(--primary);white-space:nowrap}
+tr.fer td{color:var(--alert);background:var(--alert-soft)}
+tr.mark td{background:var(--accent-soft)}
+.cols{columns:2 300px;column-gap:28px} .cols li{break-inside:avoid;margin-bottom:6px}
+ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
+.ref p{margin-bottom:8px;font-size:15px}
+</style>
+</head>
+<body>
+<header><div class="bar"><a class="brand" href="index.html#docentes"><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M26 40c9-15 21-15 34-5s25 10 34-5" fill="none" stroke="#AA151B" stroke-width="15"/><path d="M26 40c9-15 21-15 34-5s25 10 34-5" fill="none" stroke="#F1BF00" stroke-width="7"/><path d="M37 106V60M37 82c0-34 46-34 46 0v24" fill="none" stroke="#FFFFFF" stroke-width="16" stroke-linejoin="round"/></svg><div><b>Segunda Licenciatura</b><span>LETRAS ESPANHOL</span></div></a>
+<nav aria-label="Seções"><a href="index.html#docentes">Voltar ao portal</a><a href="#visao">Visão geral</a><a href="#cronograma">Cronograma</a><a href="#avaliacao">Avaliação</a><a href="#referencias">Referências</a></nav></div></header>
+<main>
+<section class="hero" id="visao"><span class="tag">3º semestre, 1/2028</span><h1>Estágio Supervisionado III</h1><p>Regência supervisionada na escola campo.</p></section>
+<div class="grid g3">
+<div class="card"><span class="tag">Carga horária</span><span class="num">70h</span><p>Toda presencial</p></div>
+<div class="card"><span class="tag">Encontros</span><span class="num" style="font-size:28px">A definir</span><p>Período a definir, das 19h às 22h, no LABLIN, sala 1</p></div>
+<div class="card"><span class="tag">Docente</span><b>Vanessa Cristina da Silva</b><p class="small">Atendimento aos estudantes a definir para o semestre</p></div>
+</div>
+<div class="grid g2">
+<div class="card"><h3>Competências</h3><ul class="b"><li>Atuar de forma autônoma, crítica e reflexiva no ensino de língua espanhola na educação básica ou profissional, articulando conhecimentos teóricos, pedagógicos e linguísticos</li><li>Consolidar as competências docentes desenvolvidas ao longo do curso, planejando, executando e avaliando práticas de ensino em contextos reais</li><li>Refletir sobre o processo de ensino e aprendizagem de língua estrangeira e suas implicações pedagógicas</li></ul></div>
+<div class="card"><h3>Habilidades</h3><ul class="b"><li>Analisar criticamente a escola campo de estágio e seus processos pedagógicos</li><li>Selecionar materiais didáticos e elaborar instrumentos de avaliação</li><li>Planejar, executar e avaliar aulas de língua espanhola com autonomia</li><li>Sistematizar a prática por meio de portfólios reflexivos e participar de comunidades de prática docente</li></ul></div>
+</div>
+<div class="card"><h3>Bases tecnológicas</h3><ul class="b"><li>Planejamento didático avançado e regência autônoma</li><li>Produção e adaptação de materiais didáticos</li><li>Avaliação da aprendizagem e reorientação das práticas pedagógicas</li><li>Gestão da sala de aula e mediação pedagógica</li><li>Integração entre língua, cultura e práticas sociais</li><li>Prática reflexiva, portfólios e comunidades de prática docente</li></ul><p class="small">Conforme o PPC aprovado pela Resolução 28/2026.</p></div><div class="card"><h3>Etapa formativa</h3><p>Regência supervisionada. Elaboração, execução e avaliação de sequências didáticas de língua espanhola, com reflexão crítica sobre a prática e socialização das experiências.</p><p class="small">Pré-requisito: Estágio Supervisionado II. Quem obteve a redução de 100h cumpre aqui a carga remanescente.</p></div>
+<section class="card" id="cronograma"><h2>Cronograma dos encontros presenciais</h2>
+<p class="small">Proposta inicial, para ajuste pelo docente no plano de ensino.</p>
+<div class="scroll"><table class="wk"><tr><th>Encontro</th><th></th><th>Tema e atividade</th></tr><tr><td>1</td><td></td><td><b>Apresentação da disciplina</b><p class="small">Plano de ensino e etapa de regência</p></td></tr><tr><td>2</td><td></td><td><b>Escolas campo</b><p class="small">Termo de compromisso e plano de atividades</p></td></tr><tr><td>3</td><td></td><td><b>Análise da escola campo</b><p class="small">Processos pedagógicos e turma da regência</p></td></tr><tr><td>4</td><td></td><td><b>Planejamento avançado</b><p class="small">Sequências didáticas para a regência</p></td></tr><tr><td>5</td><td></td><td><b>Materiais didáticos</b><p class="small">Seleção, produção e adaptação</p></td></tr><tr><td>6</td><td></td><td><b>Instrumentos de avaliação</b><p class="small">Elaboração e critérios</p></td></tr><tr><td>7</td><td></td><td><b>Gestão da sala de aula</b><p class="small">Mediação pedagógica</p></td></tr><tr><td>8</td><td></td><td><b>Língua, cultura e práticas sociais</b><p class="small">Integração nas sequências</p></td></tr><tr><td>9</td><td></td><td><b>Portfólio reflexivo</b><p class="small">Organização do portfólio</p></td></tr><tr class="mark"><td>10</td><td></td><td><b>Relatório parcial</b><p class="small">Entrega e discussão do planejamento</p></td></tr><tr><td>11</td><td></td><td><b>Regência</b><p class="small">Aulas na escola campo</p></td></tr><tr><td>12</td><td></td><td><b>Regência</b><p class="small">Aulas na escola campo</p></td></tr><tr><td>13</td><td></td><td><b>Regência</b><p class="small">Aulas na escola campo</p></td></tr><tr><td>14</td><td></td><td><b>Regência</b><p class="small">Aulas na escola campo</p></td></tr><tr><td>15</td><td></td><td><b>Comunidade de prática</b><p class="small">Discussão das regências</p></td></tr><tr class="mark"><td>16</td><td></td><td><b>Avaliação e reorientação</b><p class="small">Análise dos resultados das aulas</p></td></tr><tr><td>17</td><td></td><td><b>Prática reflexiva</b><p class="small">Autoavaliação e portfólio</p></td></tr><tr><td>18</td><td></td><td><b>Escrita do relatório</b><p class="small">Orientação individual</p></td></tr><tr class="mark"><td>19</td><td></td><td><b>Relatório circunstanciado</b><p class="small">Entrega do relatório final</p></td></tr><tr class="mark"><td>20</td><td></td><td><b>Seminário de socialização</b><p class="small">Apresentação das experiências de estágio</p></td></tr></table></div>
+<p class="small">As datas e o dia da semana serão definidos com o calendário acadêmico de 1/2028. A carga é toda presencial e inclui a regência na escola campo.</p></section>
+
+<section class="grid g2" id="avaliacao">
+<div class="card"><h3>Avaliação</h3><p>Instrumentos e pesos definidos pelo docente no plano de ensino.</p><div><div class="doc"><b>Ficha de frequência</b><span class="tag a">Peso a definir</span></div><div class="doc"><b>Portfólio reflexivo</b><span class="tag a">Peso a definir</span></div><div class="doc"><b>Regência</b><span class="tag a">Peso a definir</span></div><div class="doc"><b>Relatório circunstanciado</b><span class="tag a">Peso a definir</span></div><div class="doc"><b>Seminário de socialização</b><span class="tag a">Peso a definir</span></div></div></div>
+<div class="card"><h3>Documentos do estágio</h3><div><div class="doc"><b>Termo de compromisso e plano de atividades</b><span class="tag a">A incluir</span></div><div class="doc"><b>Ficha de frequência</b><span class="tag a">A incluir</span></div><div class="doc"><b>Diário de campo</b><span class="tag a">A incluir</span></div><div class="doc"><b>Modelo de relatório</b><span class="tag a">A incluir</span></div></div></div>
+</section>
+<section class="card ref" id="referencias"><h2>Referências</h2><h3>Bibliografia básica</h3><p>CASSANY, Daniel; LUNA, Marta; SANZ, Glòria. <i>Enseñar lengua</i>. Barcelona: Graó, 2008.</p><p>VALERO-REDONDO, María; RODRÍGUEZ-MESA, Francisco José (coord.). <i>Innovación en la enseñanza de lenguas</i>: mejoras docentes para el aprendizaje del siglo XXI. Madrid: Dykinson, 2023.</p><p>ZABALA, Antoni. <i>A prática educativa</i>: como ensinar. Porto Alegre: Artmed, 1998.</p><h3>Bibliografia complementar</h3><p>HERRERA, Francisco. <i>Enseñanza y aprendizaje de lenguas extranjeras</i>. Madrid: SGEL, 2006.</p><p>IMBERNÓN, Francisco. <i>Formação continuada de professores</i>. Porto Alegre: Artmed, 2010.</p><p>MARTÍN PERIS, Ernesto (coord.). <i>Conceptos clave en didáctica de la lengua y la literatura</i>. Barcelona: SEDLL; ICE Universitat de Barcelona; Horsori, 1998.</p><p>MORAN, José Manuel. <i>Metodologias ativas para uma educação inovadora</i>. Porto Alegre: Penso, 2018.</p><p>NÓVOA, António. <i>Professores</i>: imagens do futuro presente. Lisboa: Educa, 2009.</p></section>
+</main>
+<footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+</body></html>
