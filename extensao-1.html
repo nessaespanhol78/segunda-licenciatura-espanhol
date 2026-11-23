@@ -165,4 +165,11 @@ ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
 </section>
 </main>
 <footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+<script>/* modo discente: abre com ?v=discente */
+(function(){try{if(new URLSearchParams(location.search).get('v')!=='discente')return;
+document.querySelectorAll('a[href^="index.html"]').forEach(function(a){a.href='discentes.html#matriz';if(a.textContent.trim()==='Voltar ao portal')a.textContent='Voltar à matriz'});
+document.querySelectorAll('nav a[href*="drive.google"]').forEach(function(a){a.remove()});
+document.querySelectorAll('p.small').forEach(function(p){if(/para ajuste pelo docente/.test(p.textContent))p.remove()});
+document.querySelectorAll('.tag.a').forEach(function(t){if(t.textContent.trim()==='A incluir')t.textContent='Em breve'});
+}catch(e){}})();</script>
 </body></html>

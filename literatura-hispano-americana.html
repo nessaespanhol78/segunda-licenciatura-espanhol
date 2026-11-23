@@ -130,4 +130,11 @@ ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
 <section class="card ref" id="referencias"><h2>Referências</h2><h3>Bibliografia básica</h3><p>FRANCO, Jean. <i>Historia de la literatura hispanoamericana</i>. Barcelona: Ariel, 1990.</p><p>FUENTES, Carlos. <i>La gran novela latinoamericana</i>. México: Alfaguara, 2011.</p><p>RAMA, Ángel. <i>Transculturación narrativa en América Latina</i>. México: Siglo XXI, 1982.</p><h3>Bibliografia complementar</h3><p>CANDIDO, Antonio. <i>Literatura e sociedade</i>. São Paulo: T. A. Queiroz, 2006.</p><p>HALPERÍN DONGHI, Tulio. <i>Historia contemporánea de América Latina</i>. Madrid: Alianza, 1993.</p><p>RAMA, Ángel. <i>La ciudad letrada</i>. Montevideo: Arca, 1998.</p><p>SHAW, Donald L. <i>Nueva narrativa hispanoamericana</i>. 8. ed. Madrid: Cátedra, 2008.</p><p>SOMMER, Doris. <i>Foundational fictions</i>. Berkeley: University of California Press, 1991.</p></section>
 </main>
 <footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+<script>/* modo discente: abre com ?v=discente */
+(function(){try{if(new URLSearchParams(location.search).get('v')!=='discente')return;
+document.querySelectorAll('a[href^="index.html"]').forEach(function(a){a.href='discentes.html#matriz';if(a.textContent.trim()==='Voltar ao portal')a.textContent='Voltar à matriz'});
+document.querySelectorAll('nav a[href*="drive.google"]').forEach(function(a){a.remove()});
+document.querySelectorAll('p.small').forEach(function(p){if(/para ajuste pelo docente/.test(p.textContent))p.remove()});
+document.querySelectorAll('.tag.a').forEach(function(t){if(t.textContent.trim()==='A incluir')t.textContent='Em breve'});
+}catch(e){}})();</script>
 </body></html>

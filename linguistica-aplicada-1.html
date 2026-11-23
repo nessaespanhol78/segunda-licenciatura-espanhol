@@ -130,4 +130,11 @@ ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
 <section class="card ref" id="referencias"><h2>Referências</h2><h3>Bibliografia básica</h3><p>MOITA LOPES, Luiz Paulo da (org.). <i>Por uma linguística aplicada indisciplinar</i>. São Paulo: Parábola, 2006.</p><p>RICHARDS, Jack C.; RODGERS, Theodore S. <i>Approaches and methods in language teaching</i>. Cambridge: Cambridge University Press, 2001.</p><p>SÁNCHEZ LOBATO, Jesús; SANTOS GARGALLO, Isabel (org.). <i>Vademécum para la formación de profesores</i>: enseñar español como segunda lengua (L2)/lengua extranjera (LE). Madrid: SGEL, 2016.</p><h3>Bibliografia complementar</h3><p>ELLIS, Rod. <i>Understanding second language acquisition</i>. 2. ed. Oxford: Oxford University Press, 2015.</p><p>MIRANDA, Cícero (org.). <i>La lengua española en Brasil</i>: enseñanza, formación de profesores y resistencia. Brasília: Embajada de España, 2018.</p><p>ORTIZ ALVAREZ, Maria Luisa. <i>Novas línguas, línguas novas</i>: questões da interlíngua na pesquisa em Linguística Aplicada. Campinas: Pontes, 2012.</p><p>VANDENBRANDEN, Kris. <i>How to teach an additional language</i>: to task or not to task. Amsterdam: John Benjamins, 2022.</p><p>VANPATTEN, Bill; WILLIAMS, Jessica. <i>Theories in second language acquisition</i>: an introduction. New York: Routledge, 2015.</p></section>
 </main>
 <footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+<script>/* modo discente: abre com ?v=discente */
+(function(){try{if(new URLSearchParams(location.search).get('v')!=='discente')return;
+document.querySelectorAll('a[href^="index.html"]').forEach(function(a){a.href='discentes.html#matriz';if(a.textContent.trim()==='Voltar ao portal')a.textContent='Voltar à matriz'});
+document.querySelectorAll('nav a[href*="drive.google"]').forEach(function(a){a.remove()});
+document.querySelectorAll('p.small').forEach(function(p){if(/para ajuste pelo docente/.test(p.textContent))p.remove()});
+document.querySelectorAll('.tag.a').forEach(function(t){if(t.textContent.trim()==='A incluir')t.textContent='Em breve'});
+}catch(e){}})();</script>
 </body></html>

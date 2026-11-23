@@ -130,4 +130,11 @@ ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
 <section class="card ref" id="referencias"><h2>Referências</h2><h3>Bibliografia básica</h3><p>CASSANY, Daniel. <i>La cocina de la escritura</i>. Barcelona: Anagrama, 1995.</p><p>CASTRO VIÚDEZ, Francisca; DÍAZ BALLESTEROS, Pilar; RODERO DÍEZ, Ignacio; SARDINERO FRANCO, Carmen. <i>Español en marcha 4</i>: B2. Libro del alumno. 3. ed. Alcobendas: SGEL, 2023.</p><p>CASTRO VIÚDEZ, Francisca; DÍAZ BALLESTEROS, Pilar; RODERO DÍEZ, Ignacio; SARDINERO FRANCO, Carmen. <i>Español en marcha 4</i>: B2. Cuaderno de ejercicios. 3. ed. Alcobendas: SGEL, 2023.</p><h3>Bibliografia complementar</h3><p>ALONSO RAYA, Rosario et al. <i>Gramática básica del estudiante de español</i>: A1-B2. Barcelona: Difusión, 2022.</p><p>CASTRO VIÚDEZ, Francisca. <i>Uso de la gramática española</i>: avanzado. Madrid: Edelsa, 2011.</p><p>CASSANY, Daniel. <i>Reparar la escritura</i>. Barcelona: Graó, 2007.</p><p>SÁNCHEZ LOBATO, Jesús; SANTOS GARGALLO, Isabel (org.). <i>Vademécum para la formación de profesores</i>. Madrid: SGEL, 2016.</p><p>UNIVERSIDAD DE ALCALÁ DE HENARES. <i>Señas</i>: diccionario para la enseñanza de la lengua española para brasileños. 3. ed. São Paulo: Martins Fontes, 2010.</p></section>
 </main>
 <footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+<script>/* modo discente: abre com ?v=discente */
+(function(){try{if(new URLSearchParams(location.search).get('v')!=='discente')return;
+document.querySelectorAll('a[href^="index.html"]').forEach(function(a){a.href='discentes.html#matriz';if(a.textContent.trim()==='Voltar ao portal')a.textContent='Voltar à matriz'});
+document.querySelectorAll('nav a[href*="drive.google"]').forEach(function(a){a.remove()});
+document.querySelectorAll('p.small').forEach(function(p){if(/para ajuste pelo docente/.test(p.textContent))p.remove()});
+document.querySelectorAll('.tag.a').forEach(function(t){if(t.textContent.trim()==='A incluir')t.textContent='Em breve'});
+}catch(e){}})();</script>
 </body></html>

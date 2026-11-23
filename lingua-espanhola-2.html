@@ -130,4 +130,11 @@ ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
 <section class="card ref" id="referencias"><h2>Referências</h2><h3>Bibliografia básica</h3><p>CASTRO VIÚDEZ, Francisca; DÍAZ BALLESTEROS, Pilar; RODERO DÍEZ, Ignacio; SARDINERO FRANCO, Carmen. <i>Español en marcha 3</i>: B1. Libro del alumno. 3. ed. Alcobendas: SGEL, 2023.</p><p>CASTRO VIÚDEZ, Francisca; DÍAZ BALLESTEROS, Pilar; RODERO DÍEZ, Ignacio; SARDINERO FRANCO, Carmen. <i>Español en marcha 3</i>: B1. Cuaderno de ejercicios. 3. ed. Alcobendas: SGEL, 2023.</p><p>CASTRO VIÚDEZ, Francisca. <i>Uso de la gramática española</i>: intermedio. Gramática y ejercicios de sistematización para estudiantes de ELE. Madrid: Edelsa, 2011.</p><h3>Bibliografia complementar</h3><p>ALONSO RAYA, Rosario et al. <i>Gramática básica del estudiante de español</i>: A1-B2. Barcelona: Difusión, 2022.</p><p>CANO AGUILAR, Rafael (coord.). <i>Historia de la lengua española</i>. Barcelona: Ariel, 2005.</p><p>CASSANY, Daniel. <i>Reparar la escritura</i>: didáctica de la corrección de lo escrito. Barcelona: Graó, 2007.</p><p>MORAN, José Manuel. <i>Metodologias ativas para uma educação inovadora</i>. Porto Alegre: Penso, 2018.</p><p>UNIVERSIDAD DE ALCALÁ DE HENARES. <i>Señas</i>: diccionario para la enseñanza de la lengua española para brasileños. 3. ed. São Paulo: Martins Fontes, 2010.</p></section>
 </main>
 <footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+<script>/* modo discente: abre com ?v=discente */
+(function(){try{if(new URLSearchParams(location.search).get('v')!=='discente')return;
+document.querySelectorAll('a[href^="index.html"]').forEach(function(a){a.href='discentes.html#matriz';if(a.textContent.trim()==='Voltar ao portal')a.textContent='Voltar à matriz'});
+document.querySelectorAll('nav a[href*="drive.google"]').forEach(function(a){a.remove()});
+document.querySelectorAll('p.small').forEach(function(p){if(/para ajuste pelo docente/.test(p.textContent))p.remove()});
+document.querySelectorAll('.tag.a').forEach(function(t){if(t.textContent.trim()==='A incluir')t.textContent='Em breve'});
+}catch(e){}})();</script>
 </body></html>

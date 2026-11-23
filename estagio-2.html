@@ -129,4 +129,11 @@ ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
 <section class="card ref" id="referencias"><h2>Referências</h2><h3>Bibliografia básica</h3><p>ALONSO, Encina. <i>Soy profesor/a</i>: aprender a enseñar 1. Madrid: Edelsa, 2012.</p><p>CASSANY, Daniel; LUNA, Marta; SANZ, Glòria. <i>Enseñar lengua</i>. Barcelona: Graó, 2008.</p><p>ZABALA, Antoni. <i>A prática educativa</i>: como ensinar. Porto Alegre: Artmed, 1998.</p><h3>Bibliografia complementar</h3><p>ANTUNES, Irandé. <i>Muito além da gramática</i>: por um ensino de línguas sem pedras no caminho. São Paulo: Parábola, 2007.</p><p>HERRERA, Francisco (ed.). <i>Enseñar léxico en el aula de español</i>: el poder de las palabras. Barcelona: Difusión, 2017.</p><p>MARTÍN PERIS, Ernesto (coord.). <i>Didáctica del español como lengua extranjera</i>. Madrid: Fundación Actilibre; Instituto Cervantes, 2001.</p><p>MORAN, José Manuel. <i>Metodologias ativas para uma educação inovadora</i>. Porto Alegre: Penso, 2018.</p><p>VALERO-REDONDO, María; RODRÍGUEZ-MESA, Francisco José (coord.). <i>Innovación en la enseñanza de lenguas</i>: mejoras docentes para el aprendizaje del siglo XXI. Madrid: Dykinson, 2023.</p></section>
 </main>
 <footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+<script>/* modo discente: abre com ?v=discente */
+(function(){try{if(new URLSearchParams(location.search).get('v')!=='discente')return;
+document.querySelectorAll('a[href^="index.html"]').forEach(function(a){a.href='discentes.html#matriz';if(a.textContent.trim()==='Voltar ao portal')a.textContent='Voltar à matriz'});
+document.querySelectorAll('nav a[href*="drive.google"]').forEach(function(a){a.remove()});
+document.querySelectorAll('p.small').forEach(function(p){if(/para ajuste pelo docente/.test(p.textContent))p.remove()});
+document.querySelectorAll('.tag.a').forEach(function(t){if(t.textContent.trim()==='A incluir')t.textContent='Em breve'});
+}catch(e){}})();</script>
 </body></html>

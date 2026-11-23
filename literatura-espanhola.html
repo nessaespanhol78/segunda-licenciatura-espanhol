@@ -130,4 +130,11 @@ ul.b{margin:0;padding-left:20px} ul.b li{margin-bottom:6px}
 <section class="card ref" id="referencias"><h2>Referências</h2><h3>Bibliografia básica</h3><p>BLECUA, José Manuel. <i>Antología de la literatura española</i>. Madrid: Castalia, 2005.</p><p>GARCÍA DE LA CONCHA, Víctor (dir.). <i>Historia de la literatura española</i>. Madrid: Espasa Calpe, 2010.</p><p>RICO, Francisco (org.). <i>Historia y crítica de la literatura española</i>. Barcelona: Crítica, 1980.</p><h3>Bibliografia complementar</h3><p>ANDRÉS-SUÁREZ, Irene (ed.). <i>Antología del microrrelato español (1906-2011)</i>: el cuarto género narrativo. Madrid: Cátedra, 2012.</p><p>AUERBACH, Erich. <i>Mimesis</i>: a representação da realidade na literatura ocidental. 7. ed. São Paulo: Perspectiva, 2021.</p><p>HAUSER, Arnold. <i>História social da literatura e da arte</i>. São Paulo: Martins Fontes, 2003.</p><p>PAZ, Octavio. <i>El arco y la lira</i>. México: Fondo de Cultura Económica, 2004.</p></section>
 </main>
 <footer>IFB Campus Brasília. Segunda Licenciatura em Letras Espanhol.</footer>
+<script>/* modo discente: abre com ?v=discente */
+(function(){try{if(new URLSearchParams(location.search).get('v')!=='discente')return;
+document.querySelectorAll('a[href^="index.html"]').forEach(function(a){a.href='discentes.html#matriz';if(a.textContent.trim()==='Voltar ao portal')a.textContent='Voltar à matriz'});
+document.querySelectorAll('nav a[href*="drive.google"]').forEach(function(a){a.remove()});
+document.querySelectorAll('p.small').forEach(function(p){if(/para ajuste pelo docente/.test(p.textContent))p.remove()});
+document.querySelectorAll('.tag.a').forEach(function(t){if(t.textContent.trim()==='A incluir')t.textContent='Em breve'});
+}catch(e){}})();</script>
 </body></html>
