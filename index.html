@@ -116,13 +116,15 @@ footer{max-width:1080px;margin:0 auto;padding:0 16px 32px;font-size:14px;color:v
 <div class="card"><span class="num">440h</span><p>a distância, no NEaD</p></div>
 <div class="card"><span class="num">27/01</span><p>início do semestre 1/2027</p></div>
 </div>
+<div class="card" id="agora" hidden></div>
+<div class="card"><h3>Buscar no portal</h3><input id="busca" type="search" placeholder="Disciplina, documento ou data" aria-label="Buscar no portal" style="width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit"><ul class="clean" id="achados" aria-live="polite"></ul></div>
 <div class="card"><h3>Inscrições abertas, Edital 47/2026</h3><p class="small">Inscrições de 23/11/2026 a 03/01/2027. São 40 vagas no turno noturno, com seleção por sorteio. Pode se inscrever quem tem licenciatura concluída na área de Linguagens.</p><div class="doc"><b>Edital em PDF</b><a href="https://www.ifb.edu.br/attachments/article/49182/Edital%2047.2026_Segunda%20Licenciatura%20em%20Letras%20-%20Espanhol%20_%20Sele%C3%A7%C3%A3o%202027-1.pdf" target="_blank" rel="noopener">Abrir</a></div><div class="doc"><b>Formulário de inscrição</b><a href="https://forms.gle/HKNEoi7MUwQhaS5k6" target="_blank" rel="noopener">Abrir</a></div><div class="doc"><b>Notícia no site do IFB</b><a href="https://www.ifb.edu.br/brasilia/49182-inscricoes-abertas-para-segunda-licenciatura-em-letras-espanhol" target="_blank" rel="noopener">Abrir</a></div></div>
 <div class="grid g2">
 <div class="card"><h3>Coordenação do curso</h3>
 <div class="row"><div class="avatar">VS</div><div><b>Profa. Dra. Vanessa Cristina da Silva</b><p class="small">Coordenadora</p></div></div>
 <div class="doc"><b>Atendimentos</b><span>Segunda e terça, das 19h às 22h. Quinta, das 16h às 18h</span></div><div class="doc"><b>Local</b><span>Sala da coordenação do LABLIN (Bloco B, Sala 14)</span></div>
 </div>
-<div class="card"><h3>Próximos marcos</h3><ul class="clean" id="prox"></ul></div>
+<div class="card"><h3>Próximos marcos</h3><ul class="clean" id="prox"></ul><div class="seg" style="margin-top:12px"><button id="ics" type="button">Baixar datas do semestre (.ics)</button></div></div>
 </div>
 <div class="grid g3">
 <a class="card tile" href="#semestre"><h3>Semestre 1/2027</h3><p class="small">Disciplinas, docentes e horário da primeira turma.</p></a>
@@ -230,8 +232,17 @@ const B1=['2027-02-01','2027-04-09'], B2=['2027-04-12','2027-06-18'];
 const EV=[
  {d:'2026-11-19',t:'Publicação do Edital 47/2026',x:'Seleção 2027/1, por sorteio.'},
  {d:'2026-11-23',e:'2027-01-03',t:'Inscrições do processo seletivo',x:'Formulário on-line e documentação de reserva de vagas.'},
- {d:'2027-01-27',e:'2027-01-29',t:'Ambientação da turma',x:'Apresentação do curso e acesso ao NEaD.'},
- {d:'2027-02-01',t:'Início das aulas e do bloco 1'},
+ {d:'2027-01-04',t:'Análise das solicitações de reserva de vagas'},
+ {d:'2027-01-06',t:'Resultado preliminar da reserva de vagas',x:'A partir das 18h.'},
+ {d:'2027-01-07',t:'Prazo de recurso da reserva de vagas',x:'Até as 18h, pelo Anexo I enviado a processoseletivo.brasilia@ifb.edu.br.'},
+ {d:'2027-01-08',t:'Análise do recurso'},
+ {d:'2027-01-11',t:'Resultado final da reserva de vagas'},
+ {d:'2027-01-12',t:'Sorteio eletrônico',x:'Às 15h, no Registro Acadêmico. Aberto ao público.'},
+ {d:'2027-01-13',t:'Resultado do sorteio e convocação para matrícula'},
+ {d:'2027-01-15',e:'2027-01-18',t:'Matrícula em 1ª chamada',x:'Online, nos dias 15 e 18/01.'},
+ {d:'2027-01-20',t:'Demais chamadas, se necessário',x:'Podem ocorrer até 25% da carga horária do semestre.'},
+ {d:'2027-01-27',e:'2027-01-29',t:'Início do semestre e ambientação da turma',x:'Apresentação do curso e acesso ao NEaD.'},
+ {d:'2027-02-01',t:'Início das aulas do bloco 1'},
  {d:'2027-02-01',e:'2027-02-05',t:'Análise dos requerimentos',x:'Aproveitamento, proficiência, Libras e redução do estágio.'},
  {d:'2027-02-08',e:'2027-02-09',t:'Carnaval',h:1},
  {d:'2027-03-26',t:'Sexta-feira Santa',h:1},
@@ -340,6 +351,38 @@ function evList(box,list){list.forEach(e=>{const li=el('li','<time>'+fmt(e.d)+(e
  const b=el('button',e.t+(e.h?' <span class="tag r">Feriado</span>':''));b.onclick=()=>goto(e.d);li.append(b);box.append(li)})}
 evList($('#marcos'),EV);
 const t0=iso(today);evList($('#prox'),(EV.filter(e=>(e.e||e.d)>=t0&&!e.h).slice(0,4)));
+
+/* ---------- agora, busca e exportação ---------- */
+(function(){
+ const box=$('#agora'),t=iso(today),I0='2027-01-27',I1='2027-06-23';
+ const dias=(a,b)=>Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5);
+ if(t<I0){box.hidden=false;box.innerHTML='<h3>Agora</h3><p>Faltam '+dias(t,I0)+' dias para o início do semestre 1/2027, em '+fmt(I0)+'.</p>'}
+ else if(t<=I1){const b=blocoOf(t),d=new Date(t+'T12:00').getDay(),g=b&&GRADE[b][d]?GRADE[b][d].split('|'):null;
+  const ini=b?(b==1?B1[0]:B2[0]):I0,sem=Math.floor(dias(ini,t)/7)+1,ev=evOf(t).filter(e=>!e.h);
+  let h='<h3>Agora</h3><p>'+(b?'Estamos no bloco '+b+', semana '+sem+'.':'Semestre 1/2027 em andamento, entre blocos.')+'</p>';
+  if(g)h+='<p>Hoje, '+g[0]+(g[1]?' com '+DOC[g[1]]+', das 19h às 22h':', atividades assíncronas no NEaD')+'.</p>';
+  if(ev.length)h+='<p class="small">'+ev.map(e=>e.t).join(' e ')+'</p>';
+  box.hidden=false;box.innerHTML=h}
+ const idx=[];
+ EV.forEach(e=>idx.push({t:e.t+' ('+fmt(e.d)+(e.e?' a '+fmt(e.e):'')+')',k:'Calendário',f:()=>goto(e.d)}));
+ [1,2,3].forEach(k=>SEM[k].forEach(r=>idx.push({t:r[0],k:'Disciplina',h:PAG[r[0]]||'#semestre'+(k>1?k:'')})));
+ Object.values(DOC).forEach(n=>idx.push({t:n,k:'Docente',h:'#docentes'}));
+ (typeof DOCS!=='undefined'?DOCS:[]).forEach(g=>(g[1]||[]).forEach(d=>idx.push({t:d[0]+(d[1]?' '+d[1]:''),k:g[0],h:d[2]})));
+ const norm=x=>x.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ $('#busca').addEventListener('input',function(){const q=norm(this.value.trim()),ul=$('#achados');ul.innerHTML='';if(q.length<2)return;
+  const r=idx.filter(i=>norm(i.t).includes(q)).slice(0,12);
+  if(!r.length){ul.append(el('li','<span class="small">Nada encontrado.</span>'));return}
+  r.forEach(i=>{const li=el('li','');li.className='ev';const a=el(i.f?'button':'a',i.t+' <span class="tag">'+i.k+'</span>');
+   if(i.f)a.onclick=i.f;else{a.href=i.h;if(/^http/.test(i.h)){a.target='_blank';a.rel='noopener'}}li.append(a);ul.append(li)})});
+ $('#ics').onclick=function(){
+  const z=n=>String(n).padStart(2,'0'),d8=s=>s.replace(/-/g,''),esc=x=>String(x||'').replace(/[\\;,]/g,m=>'\\'+m).replace(/\n/g,'\\n');
+  const next=s=>{const d=new Date(s+'T12:00');d.setDate(d.getDate()+1);return iso(d)};
+  let o=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Segunda Licenciatura Letras Espanhol IFB//PT-BR','CALSCALE:GREGORIAN','X-WR-CALNAME:Segunda Licenciatura Letras Espanhol'];
+  EV.forEach((e,i)=>{o.push('BEGIN:VEVENT','UID:ev'+i+'-'+d8(e.d)+'@segunda-licenciatura-espanhol','DTSTAMP:20261122T000000Z','DTSTART;VALUE=DATE:'+d8(e.d),'DTEND;VALUE=DATE:'+d8(next(e.e||e.d)),'SUMMARY:'+esc(e.t),e.x?'DESCRIPTION:'+esc(e.x):null,'END:VEVENT')});
+  o.push('END:VCALENDAR');
+  const blob=new Blob([o.filter(Boolean).join('\r\n')],{type:'text/calendar;charset=utf-8'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download='segunda-licenciatura-espanhol-2027.ics';document.body.append(a);a.click();a.remove()}
+})();
 /* ---------- disciplinas ---------- */
 function seg(box,items,cur,fn){box.innerHTML='';items.forEach(([v,l])=>{const b=el('button',l);b.setAttribute('aria-pressed',v==cur);b.onclick=()=>fn(v);box.append(b)})}
 const info=r=>({wk:Math.ceil(r[1]/20),nu:r[0].includes('Extensão')?'III':r[0].includes('Estágio')?'IV':'II',st:/^(Língua Espanhola|Estágio)/.test(r[0])?' *':''});
